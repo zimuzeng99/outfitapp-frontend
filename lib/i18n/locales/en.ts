@@ -37,7 +37,7 @@ export const en: TranslationDict = {
   'stylist.finding': 'Finding outfits…',
   'stylist.resultsFor': 'Looks for “{{context}}”',
   'stylist.emptyPrompt': 'Describe an occasion to get outfit ideas.',
-  'stylist.emptyResults': 'No outfits returned',
+  'stylist.emptyResults': "Couldn't find any suitable outfits",
   'stylist.noGarments': 'No garments in this outfit',
   'stylist.requestFailed': 'Failed to get outfit recommendations',
   'stylist.modeOutfits': 'Outfits',
@@ -56,10 +56,11 @@ export const en: TranslationDict = {
   'stylist.wardrobeValueLow': 'Low wardrobe value',
   'stylist.nearDuplicates': 'Very similar pieces you already own',
   'stylist.potentialOutfits': 'Looks you could wear it with',
-  'stylist.noPotentialOutfits': 'No example outfits returned',
+  'stylist.noPotentialOutfits': "Couldn't find any suitable outfits with this piece",
   'stylist.moreOutfits': 'More outfits',
   'stylist.findingMore': 'Finding more…',
   'stylist.compatibleOutfitCount': 'About {{count}} outfits with your wardrobe',
   'stylist.compatibleOutfitCountRange':
     'About {{min}}–{{max}} outfits with your wardrobe',
+  'stylist.compatibleOutfitCountNone': 'No suitable outfits found',
 };

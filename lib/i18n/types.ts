@@ -60,6 +60,7 @@ export type TranslationKey =
   | 'stylist.moreOutfits'
   | 'stylist.findingMore'
   | 'stylist.compatibleOutfitCount'
-  | 'stylist.compatibleOutfitCountRange';
+  | 'stylist.compatibleOutfitCountRange'
+  | 'stylist.compatibleOutfitCountNone';
 
 export type TranslationDict = Record<TranslationKey, string>;

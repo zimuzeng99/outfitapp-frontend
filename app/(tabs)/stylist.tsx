@@ -522,12 +522,14 @@ export default function StylistScreen() {
   const compatibleMax = buyAdvice?.compatibleOutfitCountMax;
   const compatibleOutfitCountLabel =
     typeof compatibleMin === 'number' && typeof compatibleMax === 'number'
-      ? compatibleMin === compatibleMax
-        ? t('stylist.compatibleOutfitCount', { count: compatibleMin })
-        : t('stylist.compatibleOutfitCountRange', {
-            min: compatibleMin,
-            max: compatibleMax,
-          })
+      ? compatibleMax === 0
+        ? t('stylist.compatibleOutfitCountNone')
+        : compatibleMin === compatibleMax
+          ? t('stylist.compatibleOutfitCount', { count: compatibleMin })
+          : t('stylist.compatibleOutfitCountRange', {
+              min: compatibleMin,
+              max: compatibleMax,
+            })
       : null;
 
   if (mode === 'buy') {
