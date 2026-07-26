@@ -11,10 +11,11 @@ import Animated, {
 import { ThemedText } from '@/components/themed-text';
 import { Colors, Fonts, FontWeights, Radii, Shadows } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import type { GarmentSummary } from '@/lib/api/types';
-
 type GarmentTileProps = {
-  garment: GarmentSummary;
+  garment: {
+    label: string;
+    imageUrl: string;
+  };
   index?: number;
   disabled?: boolean;
   onLongPress?: () => void;

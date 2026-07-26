@@ -26,7 +26,11 @@ import { ThemedView } from '@/components/themed-view';
 import { Colors, Fonts, FontWeights, Radii, Shadows } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { recommendOutfits } from '@/lib/api/outfits';
-import type { BuyAdviceResponse, BuyVerdict, RecommendedOutfit } from '@/lib/api/types';
+import type {
+  BuyAdviceResponse,
+  RecommendedOutfit,
+  WardrobeValue,
+} from '@/lib/api/types';
 import { useLocale } from '@/lib/i18n/locale-context';
 import type { TranslationKey } from '@/lib/i18n/types';
 import {
@@ -37,10 +41,22 @@ import { useUserId } from '@/lib/user/user-context';
 
 type StylistMode = 'outfits' | 'buy';
 
-const VERDICT_KEYS: Record<BuyVerdict, TranslationKey> = {
-  BUY: 'stylist.verdictBuy',
-  CONSIDER: 'stylist.verdictConsider',
-  SKIP: 'stylist.verdictSkip',
+type OutfitCardGarment = {
+  garmentId?: string | null;
+  label: string;
+  imageUrl: string;
+};
+
+type OutfitCardData = {
+  title?: string;
+  rationale?: string;
+  garments?: OutfitCardGarment[];
+};
+
+const WARDROBE_VALUE_KEYS: Record<WardrobeValue, TranslationKey> = {
+  HIGH: 'stylist.wardrobeValueHigh',
+  MEDIUM: 'stylist.wardrobeValueMedium',
+  LOW: 'stylist.wardrobeValueLow',
 };
 
 function buildExcludeOutfits(outfits: RecommendedOutfit[]): string[][] {
@@ -113,7 +129,7 @@ function OutfitCard({
   muted,
   emptyGarmentsLabel,
 }: {
-  outfit: RecommendedOutfit;
+  outfit: OutfitCardData;
   index: number;
   surface: string;
   muted: string;
@@ -158,7 +174,10 @@ function OutfitCard({
           contentContainerStyle={styles.garmentRow}
         >
           {garments.map((garment, garmentIndex) => (
-            <View key={garment.garmentId} style={styles.garmentTileWrap}>
+            <View
+              key={garment.garmentId ?? `candidate-${index}-${garmentIndex}`}
+              style={styles.garmentTileWrap}
+            >
               <GarmentTile garment={garment} index={garmentIndex} />
             </View>
           ))}
@@ -581,7 +600,7 @@ export default function StylistScreen() {
 
             {buyAdvice ? (
               <View style={styles.buyResults}>
-                {buyAdvice.verdict || buyAdvice.rationale ? (
+                {buyAdvice.wardrobeValue || buyAdvice.rationale ? (
                   <View
                     style={[
                       styles.verdictBadge,
@@ -589,9 +608,9 @@ export default function StylistScreen() {
                       { backgroundColor: colors.surface },
                     ]}
                   >
-                    {buyAdvice.verdict ? (
+                    {buyAdvice.wardrobeValue ? (
                       <ThemedText style={styles.verdictLabel}>
-                        {t(VERDICT_KEYS[buyAdvice.verdict])}
+                        {t(WARDROBE_VALUE_KEYS[buyAdvice.wardrobeValue])}
                       </ThemedText>
                     ) : null}
                     {buyAdvice.rationale ? (
@@ -607,7 +626,9 @@ export default function StylistScreen() {
                   </View>
                 ) : null}
 
-                {!buyAdvice.verdict && !buyAdvice.rationale && compatibleOutfitCountLabel ? (
+                {!buyAdvice.wardrobeValue &&
+                !buyAdvice.rationale &&
+                compatibleOutfitCountLabel ? (
                   <ThemedText
                     style={[styles.compatibleCount, styles.compatibleCountStandalone]}
                   >
@@ -615,26 +636,24 @@ export default function StylistScreen() {
                   </ThemedText>
                 ) : null}
 
-                <ThemedText style={styles.sectionTitle}>
-                  {t('stylist.nearDuplicates')}
-                </ThemedText>
                 {nearDuplicates.length > 0 ? (
-                  <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={styles.garmentRow}
-                  >
-                    {nearDuplicates.map((garment, index) => (
-                      <View key={garment.garmentId} style={styles.garmentTileWrap}>
-                        <GarmentTile garment={garment} index={index} />
-                      </View>
-                    ))}
-                  </ScrollView>
-                ) : (
-                  <ThemedText type="muted" style={styles.noGarments}>
-                    {t('stylist.noNearDuplicates')}
-                  </ThemedText>
-                )}
+                  <>
+                    <ThemedText style={styles.sectionTitle}>
+                      {t('stylist.nearDuplicates')}
+                    </ThemedText>
+                    <ScrollView
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                      contentContainerStyle={styles.garmentRow}
+                    >
+                      {nearDuplicates.map((garment, index) => (
+                        <View key={garment.garmentId} style={styles.garmentTileWrap}>
+                          <GarmentTile garment={garment} index={index} />
+                        </View>
+                      ))}
+                    </ScrollView>
+                  </>
+                ) : null}
 
                 <ThemedText style={[styles.sectionTitle, styles.potentialTitle]}>
                   {t('stylist.potentialOutfits')}

@@ -100,7 +100,7 @@ export type OutfitRecommendationResponse = {
 
 export type BuyAdviceStatus = 'PENDING' | 'UPLOADED' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
 
-export type BuyVerdict = 'BUY' | 'CONSIDER' | 'SKIP';
+export type WardrobeValue = 'HIGH' | 'MEDIUM' | 'LOW';
 
 /** Matches OpenAPI `CreateBuyAdviceRequest`. */
 export type CreateBuyAdviceRequest = {
@@ -149,16 +149,22 @@ export type BuyAdviceCandidate = {
 
 /** Matches OpenAPI `BuyAdviceOverlapResponse`. */
 export type BuyAdviceOverlap = {
-  sameCategoryCount?: number;
-  sameGroupCount?: number;
   nearDuplicates?: GarmentSummary[];
+};
+
+/** Matches OpenAPI `BuyAdviceOutfitGarmentResponse`. */
+export type BuyAdviceOutfitGarment = {
+  garmentId?: string | null;
+  label: string;
+  imageUrl: string;
+  imageUrlExpiresAt: string;
 };
 
 /** Matches OpenAPI `BuyAdviceOutfitResponse`. */
 export type BuyAdviceOutfit = {
   title?: string;
   rationale?: string;
-  garments?: GarmentSummary[];
+  garments?: BuyAdviceOutfitGarment[];
 };
 
 /** Matches OpenAPI `BuyAdviceResponse`. */
@@ -166,7 +172,7 @@ export type BuyAdviceResponse = {
   adviceId: string;
   status: BuyAdviceStatus;
   context?: string | null;
-  verdict?: BuyVerdict | null;
+  wardrobeValue?: WardrobeValue | null;
   rationale?: string | null;
   candidate?: BuyAdviceCandidate | null;
   overlap?: BuyAdviceOverlap | null;
