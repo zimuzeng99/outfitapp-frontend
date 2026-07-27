@@ -7,6 +7,7 @@ import {
 import type { GarmentExtractionStatus, UploadStatus } from '@/lib/api/types';
 
 const CONTENT_TYPE = 'image/jpeg';
+const UPLOAD_CONCURRENCY = 3;
 const POLL_INTERVAL_MS = 1500;
 const MAX_BATCH_POLLS = 40;
 const MAX_EXTRACTION_POLLS = 80;
@@ -20,6 +21,28 @@ export type UploadPhotosResult = {
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function mapWithConcurrency<T>(
+  items: T[],
+  concurrency: number,
+  worker: (item: T, index: number) => Promise<void>,
+): Promise<void> {
+  let nextIndex = 0;
+
+  async function runWorker(): Promise<void> {
+    while (nextIndex < items.length) {
+      const index = nextIndex;
+      nextIndex += 1;
+      await worker(items[index], index);
+    }
+  }
+
+  const workers = Array.from(
+    { length: Math.min(concurrency, items.length) },
+    () => runWorker(),
+  );
+  await Promise.all(workers);
 }
 
 function isBatchItemReady(status: UploadStatus): boolean {
@@ -110,10 +133,10 @@ export async function uploadPhotos(
     throw new Error('Upload batch size did not match selected photos');
   }
 
-  for (let index = 0; index < localUris.length; index += 1) {
+  await mapWithConcurrency(localUris, UPLOAD_CONCURRENCY, async (localUri, index) => {
     const upload = batch.uploads[index];
-    await putPhotoToSignedUrl(upload.uploadUrl, localUris[index], CONTENT_TYPE);
-  }
+    await putPhotoToSignedUrl(upload.uploadUrl, localUri, CONTENT_TYPE);
+  });
 
   const itemIds = await waitForBatchUploads(batch.batchId);
 
