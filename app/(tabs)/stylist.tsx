@@ -518,19 +518,6 @@ export default function StylistScreen() {
 
   const nearDuplicates = buyAdvice?.overlap?.nearDuplicates ?? [];
   const potentialOutfits = buyAdvice?.potentialOutfits ?? [];
-  const compatibleMin = buyAdvice?.compatibleOutfitCountMin;
-  const compatibleMax = buyAdvice?.compatibleOutfitCountMax;
-  const compatibleOutfitCountLabel =
-    typeof compatibleMin === 'number' && typeof compatibleMax === 'number'
-      ? compatibleMax === 0
-        ? t('stylist.compatibleOutfitCountNone')
-        : compatibleMin === compatibleMax
-          ? t('stylist.compatibleOutfitCount', { count: compatibleMin })
-          : t('stylist.compatibleOutfitCountRange', {
-              min: compatibleMin,
-              max: compatibleMax,
-            })
-      : null;
 
   if (mode === 'buy') {
     return (
@@ -620,22 +607,7 @@ export default function StylistScreen() {
                         {buyAdvice.rationale}
                       </ThemedText>
                     ) : null}
-                    {compatibleOutfitCountLabel ? (
-                      <ThemedText style={styles.compatibleCount}>
-                        {compatibleOutfitCountLabel}
-                      </ThemedText>
-                    ) : null}
                   </View>
-                ) : null}
-
-                {!buyAdvice.wardrobeValue &&
-                !buyAdvice.rationale &&
-                compatibleOutfitCountLabel ? (
-                  <ThemedText
-                    style={[styles.compatibleCount, styles.compatibleCountStandalone]}
-                  >
-                    {compatibleOutfitCountLabel}
-                  </ThemedText>
                 ) : null}
 
                 {nearDuplicates.length > 0 ? (
@@ -879,17 +851,6 @@ const styles = StyleSheet.create({
     fontWeight: FontWeights.light,
     fontSize: 15,
     lineHeight: 22,
-  },
-  compatibleCount: {
-    fontFamily: Fonts.uiMedium,
-    fontWeight: FontWeights.medium,
-    fontSize: 15,
-    lineHeight: 22,
-    marginTop: 12,
-  },
-  compatibleCountStandalone: {
-    marginTop: 0,
-    marginBottom: 16,
   },
   sectionTitle: {
     fontFamily: Fonts.display,

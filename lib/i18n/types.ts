@@ -59,9 +59,6 @@ export type TranslationKey =
   | 'stylist.potentialOutfits'
   | 'stylist.noPotentialOutfits'
   | 'stylist.moreOutfits'
-  | 'stylist.findingMore'
-  | 'stylist.compatibleOutfitCount'
-  | 'stylist.compatibleOutfitCountRange'
-  | 'stylist.compatibleOutfitCountNone';
+  | 'stylist.findingMore';
 
 export type TranslationDict = Record<TranslationKey, string>;

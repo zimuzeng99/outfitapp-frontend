@@ -176,8 +176,6 @@ export type BuyAdviceResponse = {
   rationale?: string | null;
   candidate?: BuyAdviceCandidate | null;
   overlap?: BuyAdviceOverlap | null;
-  compatibleOutfitCountMin?: number | null;
-  compatibleOutfitCountMax?: number | null;
   potentialOutfits?: BuyAdviceOutfit[];
   errorMessage?: string | null;
 };

@@ -60,8 +60,4 @@ export const en: TranslationDict = {
   'stylist.noPotentialOutfits': "Couldn't find any suitable outfits with this piece",
   'stylist.moreOutfits': 'More outfits',
   'stylist.findingMore': 'Finding more…',
-  'stylist.compatibleOutfitCount': 'About {{count}} outfits with your wardrobe',
-  'stylist.compatibleOutfitCountRange':
-    'About {{min}}–{{max}} outfits with your wardrobe',
-  'stylist.compatibleOutfitCountNone': 'No suitable outfits found',
 };

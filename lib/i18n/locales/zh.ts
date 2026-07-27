@@ -60,7 +60,4 @@ export const zh: TranslationDict = {
   'stylist.noPotentialOutfits': '没有找到可搭配这件单品的穿搭',
   'stylist.moreOutfits': '更多穿搭',
   'stylist.findingMore': '正在寻找更多…',
-  'stylist.compatibleOutfitCount': '大约能搭配 {{count}} 套穿搭',
-  'stylist.compatibleOutfitCountRange': '大约能搭配 {{min}}–{{max}} 套穿搭',
-  'stylist.compatibleOutfitCountNone': '没有找到合适的穿搭',
 };
