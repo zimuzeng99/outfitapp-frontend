@@ -13,6 +13,7 @@ export type TranslationKey =
   | 'wardrobe.addPhotos'
   | 'wardrobe.addFirstPhotos'
   | 'wardrobe.empty'
+  | 'wardrobe.emptyHint'
   | 'wardrobe.uploading'
   | 'wardrobe.processing'
   | 'wardrobe.loadFailed'

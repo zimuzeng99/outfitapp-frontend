@@ -379,9 +379,12 @@ export default function WardrobeScreen() {
           onRefresh={() => void loadGarments('refresh')}
           ListEmptyComponent={
             <View style={styles.centeredEmpty}>
-              <ThemedText type="muted" style={styles.emptyCopy}>
-                {t('wardrobe.empty')}
-              </ThemedText>
+              <View style={styles.emptyCopyBlock}>
+                <ThemedText style={styles.emptyTitle}>{t('wardrobe.empty')}</ThemedText>
+                <ThemedText type="muted" style={styles.emptyHint}>
+                  {t('wardrobe.emptyHint')}
+                </ThemedText>
+              </View>
               <AddPhotosButton
                 label={t('wardrobe.addFirstPhotos')}
                 onPress={() => void handleAddPhotos()}
@@ -554,8 +557,19 @@ const styles = StyleSheet.create({
     paddingVertical: 80,
     gap: 18,
   },
-  emptyCopy: {
+  emptyCopyBlock: {
+    alignItems: 'center',
+    maxWidth: 280,
+    gap: 6,
+  },
+  emptyTitle: {
     fontSize: 15,
+    textAlign: 'center',
+  },
+  emptyHint: {
+    fontSize: 14,
+    lineHeight: 20,
+    textAlign: 'center',
   },
   errorText: {
     fontFamily: Fonts.ui,
