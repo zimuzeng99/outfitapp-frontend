@@ -11,6 +11,7 @@ import {
 } from 'react';
 
 import { createUser } from '@/lib/api/users';
+import { TEST_USER_ID } from '@/lib/config';
 
 const STORAGE_KEY = 'outfitapp.userId';
 
@@ -24,6 +25,11 @@ type UserContextValue = {
 const UserContext = createContext<UserContextValue | null>(null);
 
 async function loadOrCreateUserId(): Promise<string> {
+  if (TEST_USER_ID) {
+    await AsyncStorage.setItem(STORAGE_KEY, TEST_USER_ID);
+    return TEST_USER_ID;
+  }
+
   const saved = await AsyncStorage.getItem(STORAGE_KEY);
   if (saved) {
     return saved;
